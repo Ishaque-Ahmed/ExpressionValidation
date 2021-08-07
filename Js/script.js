@@ -3,6 +3,7 @@ let phoneBtn = document.querySelector('#phone');
 let postCodeBtn = document.querySelector('#postCode');
 let otherBtn = document.querySelector('#other');
 
+
 emailBtn.addEventListener('click', emailValidation);
 phoneBtn.addEventListener('click', phoneNumberValidation);
 postCodeBtn.addEventListener('click', postCodeValidation);
@@ -10,51 +11,67 @@ otherBtn.addEventListener('click', OtherValidation);
 
 
 function emailValidation(e) {
-        let email = prompt("Enter the email address").toString();
 
-        let emailExpression = /^([a-zA-Z0-9_-]\.?)+[^\.]@([a-zA-Z0-9-_]\.?)+[^\.0-9]$/;
-        if (emailExpression.test(email)) {
-                alert('This is a valid Email Address.');
+        let email = prompt("Enter the email address");
+
+        if (email !== '' && email !== null) {
+                let emailExpression = /^([a-zA-Z0-9_-]\.?)+[^\.]@([a-zA-Z0-9-_]\.?)+[^\.0-9]$/;
+                if (emailExpression.test(email)) {
+                        showAlert('This is a valid Email Address.', "success");
+                } else {
+                        showAlert('This is not a valid Email Address', "failed");
+                }
         } else {
-                alert('This is not a valid Email Address');
+                showAlert('Enter Something to Validate.', "failed");
         }
 }
 
 function phoneNumberValidation(e) {
-        let phone = prompt("Enter the phone number").toString();
 
-        let phoneNumberExpression = /^((\+88)|(88))?01[0-9]{9}$/;
+        let phone = prompt("Enter the phone number");
 
-        if (phoneNumberExpression.test(phone)) {
-                alert('This is a valid Phone Number');
+        if (phone !== '' && phone !== null) {
+                let phoneNumberExpression = /^((\+88)|(88))?01[0-9]{9}$/;
+
+                if (phoneNumberExpression.test(phone)) {
+                        showAlert('This is a valid Phone Number.', "success");
+                } else {
+                        showAlert('This is not a valid Phone Number.', "failed");
+                }
         } else {
-                alert('this is not a valid Phone Number');
+                showAlert('Enter Something to Validate.', "failed");
         }
-
-
 }
 
 function postCodeValidation() {
-        let postCode = prompt("Enter the post code").toString();
 
+        let postCode = prompt("Enter the post code");
 
-        let postCodeExpression = /^[0-9]{4}$/;
+        if (postCode !== '' && postCode !== null) {
+                let postCodeExpression = /^[0-9]{4}$/;
 
-        if (postCodeExpression.test(postCode)) {
-                alert('This is a valid Post Code')
+                if (postCodeExpression.test(postCode)) {
+                        showAlert("This is a valid Post Code.", "success");
+                } else {
+                        showAlert("This is not a valid Post Code.", "failed");
+                }
         } else {
-                alert("This is not a valid Post Code");
+                showAlert('Enter Something to Validate.', "failed");
         }
 }
 
 function OtherValidation() {
-        let other = prompt("Enter Any type to validate").toString();
-        if (other !== '') {
+
+        let other = prompt("Enter Any type to validate");
+
+        if (other !== '' && other !== null) {
+
                 let postCodeExpression = /^[0-9]{4}$/;
                 let phoneNumberExpression = /^((\+88)|(88))?01[0-9]{9}$/;
                 let emailExpression = /^([a-zA-Z0-9_-]\.?)+[^\.]@([a-zA-Z0-9-_]\.?)+[^\.0-9]$/;
 
                 let current;
+
                 if (postCodeExpression.test(other)) { current = 1; }
                 else if (phoneNumberExpression.test(other)) { current = 2; }
                 else if (emailExpression.test(other)) { current = 3; }
@@ -62,20 +79,34 @@ function OtherValidation() {
 
                 switch (current) {
                         case 1:
-                                alert('This is a Post Code.');
+                                showAlert("This is a Post Code.", "success");
                                 break;
                         case 2:
-                                alert('This is a Phone Number');
+                                showAlert('This is a Phone Number.', "success");
                                 break;
                         case 3:
-                                alert('This is a Email Address.');
+                                showAlert('This is a Email Address.', "success");
                                 break;
                         default:
-                                alert("Doesn't Match any expression");
+                                showAlert("Doesn't Match Any Expression", "failed");
                                 break;
                 }
-        } else {
-                alert('Enter Something to Validate.');
         }
+        else {
+                showAlert('Enter Something to Validate.', "failed");
+        }
+}
 
+function showAlert(message, className) {
+
+        let div = document.createElement('div');
+        div.className = `alert ${className}`;
+        div.appendChild(document.createTextNode(message));
+        let container = document.querySelector('.containerFinal');
+        let button = document.querySelector('#email');
+        container.insertBefore(div, button);
+
+        setTimeout(() => {
+                document.querySelector('.alert').remove();
+        }, 2000);
 }
